@@ -1,11 +1,17 @@
 ---
-title: "avasv12.github.io"
+title: "Ava Santos-Volpe"
+image: Downloads/headshot.JPEG
+toc: false
+about:
+  template: trestles
+  links:
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/avasantosvolpe 
+    - text: GitHub
+      href: https://github.com/avasv12
+    - text: Email
+      href: mailto:amss2022@mymail.pomona.edu
+    
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+Hello! My name is Ava Santos-Volpe and I am a senior at Pomona College in Claremont, CA. Academically, I am interested in using molecular and computational tools to answer ecological and conservation-based questions. Outside of school, I love to hike, snorkel/SCUBA dive, and spend time with friends and family!

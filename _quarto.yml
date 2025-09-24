@@ -3,20 +3,21 @@ project:
   output-dir: docs
 
 website:
-  title: "avasv12.github.io"
+  title: "Ava Santos-Volpe"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+      - dataviz.qmd
 
 format:
   html:
     theme:
-      - cosmo
-      - brand
+      - journal
     css: styles.css
     toc: true
+    page-layout: full
 
 editor: visual
 
