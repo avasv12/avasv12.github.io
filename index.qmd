@@ -1,6 +1,6 @@
 ---
 title: "Ava Santos-Volpe"
-image: Downloads/headshot.JPEG
+image: headshot.JPEG
 toc: false
 about:
   template: trestles
@@ -11,7 +11,6 @@ about:
       href: https://github.com/avasv12
     - text: Email
       href: mailto:amss2022@mymail.pomona.edu
-    
 ---
 
 Hello! My name is Ava Santos-Volpe and I am a senior at Pomona College in Claremont, CA. Academically, I am interested in using molecular and computational tools to answer ecological and conservation-based questions. Outside of school, I love to hike, snorkel/SCUBA dive, and spend time with friends and family!
