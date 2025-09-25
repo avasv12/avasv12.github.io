@@ -8,3 +8,4 @@ frog_data.csv
 
 /.quarto/
 **/*.quarto_ipynb
+frog_data.csv
