@@ -12,8 +12,7 @@ execute:
 
 # Data
 
-This data set is the sixth release of 
-[FrogID](https://www.frogid.net.au/explore) data. I will specifically be looking at frog call identification data from 2023. The FrogID app allows citizen scientists to submit frog calls for experts to identify.
+This data set is the sixth release of [FrogID](https://www.frogid.net.au/explore) data. I will specifically be looking at frog call identification data from 2023. The FrogID app allows citizen scientists to submit frog calls for experts to identify.
 
 # Background
 

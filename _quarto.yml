@@ -12,7 +12,8 @@ website:
         menu: 
           - text: "Australian Frogs"
             href: australian_frogs.html
-
+          - text: "Long Beach Animal Shelter"
+            href: animal_shelter.html
 format:
   html:
     theme:
