@@ -8,12 +8,12 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: dataviz.html
+      - href: dataviz.qmd
         text: "Data Visualization"
         menu: 
-          - href: australian_frogs.html
+          - href: australian_frogs.qmd
             text: "Australian Frogs"
-          - href: animal_shelter.html
+          - href: animal_shelter.qmd
             text: "Long Beach Animal Shelter"
 format:
   html:
