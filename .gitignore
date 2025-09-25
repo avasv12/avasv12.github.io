@@ -4,6 +4,7 @@
 .httr-oauth
 .DS_Store
 .quarto
+frog_data.csv
 
 /.quarto/
 **/*.quarto_ipynb
