@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ava Santos-Volpe",
+    "section": "",
+    "text": "Hello! My name is Ava Santos-Volpe and I am a senior at Pomona College in Claremont, CA. Academically, I am interested in using molecular and computational tools to answer ecological and conservation-based questions. Outside of school, I love to hike, snorkel/SCUBA dive, and spend time with friends and family!"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "australian_frogs.html",
+    "href": "australian_frogs.html",
+    "title": "Australian Frogs",
+    "section": "",
+    "text": "Data\nThis data set is the sixth release of FrogID data. I will specifically be looking at frog call identification data from 2023. The FrogID app allows citizen scientists to submit frog calls for experts to identify.\n\n\nBackground\nAustralia is home to a unique and diverse array of frog species found almost nowhere else on Earth, with 257 native species distributed throughout the continent. But Australia’s frogs are in peril – almost one in five species are threatened with extinction due to threats such as climate change, urbanisation, disease, and the spread of invasive species.\n\n\nCitations\nPrimary citation for FrogID data: Rowley JJL, & Callaghan CT (2020) The FrogID dataset: expert-validated occurrence records of Australia’s frogs collected by citizen scientists. ZooKeys 912: 139-151\nOfficial frog name data: Australian Society of Herpetologists Official List of Australian Species. 2025. http://www.australiansocietyofherpetologists.org/ash-official-list-of-australian-species.\nThank you to Jessica Moore for curating this week’s dataset.\n\nlibrary(tidyverse)\nlibrary(here)\nlibrary(ggplot2)\nlibrary(maps)\n\n# download and clean frogID data\n\nfrogID &lt;- here(\"frog_data.csv\")\n\ndownload.file( \"https://d2pifd398unoeq.cloudfront.net/FrogID6_final_dataset.csv\", destfile = frogID, mode = \"wb\" )\n\nfrogID_data &lt;- read_csv(\"frog_data.csv\") %&gt;% # remove columns containing only one unique value and other unnecessary columns \n  select(-c(datasetName, basisOfRecord, dataGeneralizations, sex, lifestage, behavior, samplingProtocol, country, machineObservation, geoprivacy, modified)) %&gt;% \n  # restrict to 2023 data only to reduce file size \n  filter(format(eventDate, \"%Y\") == \"2023\") %&gt;% \n  # split time column into time and timezone \n  separate_wider_regex( eventTime, patterns = c(eventTime = \"^\\\\d{2}:\\\\d{2}:\\\\d{2}\", timezone = \".*$\") ) %&gt;% mutate( timezone = ifelse(grepl(\"[^1]\", timezone), paste0(\"GMT\", timezone), timezone) )\n\n# read and tidy frog name and common name data\n\ndownload.file( \"https://raw.githubusercontent.com/jessjep/Frogs/main/frog_names.xlsx\", destfile = \"frog_names.xlsx\", mode = \"wb\" )\n\nfrog_names &lt;- readxl::read_xlsx(\"frog_names.xlsx\") %&gt;% select(1:4) %&gt;% separate_wider_delim( `GROUP, FAMILY, SUBFAMILY, TRIBE`, delim = \",\", names = c(\"family\", \"subfamily\", \"tribe\") ) %&gt;% rename( scientificName = `GENUS SPECIES SUBSPECIES`, commonName = `COMMON NAME`, secondary_commonNames = `SECONDARY COMMON NAMES` ) %&gt;% select(-1)\n\nfrog_names[frog_names == \"—\"] &lt;- NA\n\n# join tables\n\nfrog &lt;- full_join( frog_names, frogID_data, by = c(\"scientificName\" = \"scientificName\") )\n\n# remove NAs\n\nfrog &lt;- frog |&gt; filter(!is.na(tribe))\n\n# download map\n\naus &lt;- map(\"world\", region = \"Australia\")\n\n\n\n\n\n\n\n# create plot\n\nggplot() + geom_polygon(data = aus, aes(x = long, y = lat, group = group)) + geom_jitter(data = frog, aes(x = decimalLongitude, y = decimalLatitude, color = tribe)) + facet_wrap(~tribe) + theme_minimal() + labs( x = \"\", y = \"\", title = \"Australian Frog Distributions by Tribe\" )"
+  },
+  {
+    "objectID": "animalshelter.html",
+    "href": "animalshelter.html",
+    "title": "Long Beach Animal Shelter",
+    "section": "",
+    "text": "Data\nThe dataset comes from the City of Long Beach Animal Care Services via the {animalshelter} R package. This dataset comprises of the intake and outcome record from Long Beach Animal Shelter.\nThank you to Lydia Gibson for curating this week’s dataset.\n\n# Clean data provided by {animalshelter} R package (https://emilhvitfeldt.github.io/animalshelter/). No cleaning was necessary.\n# install.packages(\"devtools\")\n# devtools::install_github(\"EmilHvitfeldt/animalshelter\")\nlibrary(dplyr)\nlibrary(tidyverse)\n\nlongbeach &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-04/longbeach.csv')\n\nlongbeach &lt;- longbeach %&gt;%\n  dplyr::mutate(\n    was_outcome_alive = as.logical(was_outcome_alive),\n    dplyr::across(\n      c(\n        \"animal_type\",\n        \"primary_color\",\n        \"secondary_color\",\n        \"sex\",\n        \"intake_condition\",\n        \"intake_type\",\n        \"intake_subtype\",\n        \"reason_for_intake\",\n        \"jurisdiction\",\n        \"outcome_type\",\n        \"outcome_subtype\"\n      ),\n      as.factor\n    )\n  ) %&gt;%\n    dplyr::select(-dplyr::any_of(\"intake_is_dead\"))\n\nggplot(\n  longbeach, aes(x = animal_type, fill = animal_type)\n) +\n  geom_bar(position = \"stack\") +\n  labs(\n    x = \"Animal Type\",\n    y = \"Count\",\n    title = \"Types of Animals at Long Beach Animal Shelter\", \n    fill = \"Animal Type\"\n  )"
+  }
+]
