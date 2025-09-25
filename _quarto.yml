@@ -8,13 +8,15 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
       - dataviz.qmd
+        menu: 
+          - text: "Australian Frogs"
+            href: australian_frogs.html
 
 format:
   html:
     theme:
-      - journal
+      - brite
     css: styles.css
     toc: true
     page-layout: full
