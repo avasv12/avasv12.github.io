@@ -8,8 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: dataviz.qmd
-        text: "Data Visualization"
+      - text: "Data Visualization"
         menu: 
           - href: australian_frogs.qmd
             text: "Australian Frogs"
