@@ -8,12 +8,15 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: "Data Visualization"
+        - text: "Data Visualization"
         menu: 
+          - href: dataviz.qmd
+            text: "Overview"
           - href: australian_frogs.qmd
             text: "Australian Frogs"
           - href: animal_shelter.qmd
             text: "Long Beach Animal Shelter"
+
 format:
   html:
     theme: brite
