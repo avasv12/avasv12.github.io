@@ -9,6 +9,7 @@ execute:
   warning: false
   message: false
 ---
+
 # Data
 
 The dataset comes from the [City of Long Beach Animal Care Services](https://www.longbeach.gov/acs/) via the {animalshelter} R package. This dataset comprises of the intake and outcome record from Long Beach Animal Shelter.

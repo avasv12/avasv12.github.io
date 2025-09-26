@@ -26,5 +26,12 @@
     "title": "Long Beach Animal Shelter",
     "section": "",
     "text": "Data\nThe dataset comes from the City of Long Beach Animal Care Services via the {animalshelter} R package. This dataset comprises of the intake and outcome record from Long Beach Animal Shelter.\nThank you to Lydia Gibson for curating this week’s dataset.\n\n# Clean data provided by {animalshelter} R package (https://emilhvitfeldt.github.io/animalshelter/). No cleaning was necessary.\n# install.packages(\"devtools\")\n# devtools::install_github(\"EmilHvitfeldt/animalshelter\")\nlibrary(dplyr)\nlibrary(tidyverse)\n\nlongbeach &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-04/longbeach.csv')\n\nlongbeach &lt;- longbeach %&gt;%\n  dplyr::mutate(\n    was_outcome_alive = as.logical(was_outcome_alive),\n    dplyr::across(\n      c(\n        \"animal_type\",\n        \"primary_color\",\n        \"secondary_color\",\n        \"sex\",\n        \"intake_condition\",\n        \"intake_type\",\n        \"intake_subtype\",\n        \"reason_for_intake\",\n        \"jurisdiction\",\n        \"outcome_type\",\n        \"outcome_subtype\"\n      ),\n      as.factor\n    )\n  ) %&gt;%\n    dplyr::select(-dplyr::any_of(\"intake_is_dead\"))\n\nggplot(\n  longbeach, aes(x = animal_type, fill = animal_type)\n) +\n  geom_bar(position = \"stack\") +\n  labs(\n    x = \"Animal Type\",\n    y = \"Count\",\n    title = \"Types of Animals at Long Beach Animal Shelter\", \n    fill = \"Animal Type\"\n  )"
+  },
+  {
+    "objectID": "dataviz.html",
+    "href": "dataviz.html",
+    "title": "Data Viz",
+    "section": "",
+    "text": "Tidy Tuesday Analyses: Australian Frogs Long Beach Animal Shelter"
   }
 ]

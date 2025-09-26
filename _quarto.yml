@@ -17,11 +17,12 @@ website:
             text: "Long Beach Animal Shelter"
 format:
   html:
-    theme:
-      - brite
+    theme: brite
     css: styles.css
     toc: true
     page-layout: full
+    code-fold: true
+    code-summary: "Show the code"
 
 editor: visual
 
