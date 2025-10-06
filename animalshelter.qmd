@@ -18,6 +18,8 @@ The dataset comes from the [City of Long Beach Animal Care Services](https://www
 
 Thank you to Lydia Gibson for curating this week's dataset.
 
+[Tidy Tuesday Link](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-03-04/readme.md)
+
 ```{r}
 
 # Clean data provided by {animalshelter} R package (https://emilhvitfeldt.github.io/animalshelter/). No cleaning was necessary.

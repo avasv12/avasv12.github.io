@@ -16,6 +16,8 @@ execute:
 
 This data set is the sixth release of [FrogID](https://www.frogid.net.au/explore) data. I will specifically be looking at frog call identification data from 2023. The FrogID app allows citizen scientists to submit frog calls for experts to identify.
 
+[Tidy Tuesday Link](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-09-02/readme.md)
+
 # Background
 
 Australia is home to a unique and diverse array of frog species found almost nowhere else on Earth, with 257 native species distributed throughout the continent. But Australia’s frogs are in peril – almost one in five species are threatened with extinction due to threats such as climate change, urbanisation, disease, and the spread of invasive species.
