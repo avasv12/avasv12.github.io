@@ -1,0 +1,23 @@
+---
+title: "Text Analysis"
+editor: source
+description: |
+  Text Analysis of Women in Headlines
+author: Ava Santos-Volpe
+date: October 8, 2025
+format: html
+execute:
+  warning: false
+  message: false
+---
+#Text Analysis of Professional Basketball Unexpected Performances
+
+This data set consists of the greatest unexpected NBA performances between 1985-2022. Data comes from [basketball-reference.com](basketball-reference.com).
+
+[The Pudding Link](https://github.com/the-pudding/data/tree/master/nba-unexpected)
+
+```{r}
+nba <- read.csv("https://github.com/the-pudding/data/blob/0dea4d9746e1b0d30669d262e34c7b67e237b551/nba-unexpected/nba.csv")
+wnba <- read.csv("https://github.com/the-pudding/data/blob/master/nba-unexpected/wnba.csv")
+```
+
