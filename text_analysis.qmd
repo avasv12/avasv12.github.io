@@ -13,7 +13,7 @@ execute:
   warning: false
   message: false
 ---
-#Text Analysis of Women in Headlines from 2010 to 2020
+# Text Analysis of Women in Headlines from 2010 to 2020
 
 This data set consists of headlines tagged with the keywords "women OR woman OR girl OR female OR lady OR ladies OR she OR her OR herself OR aunt OR grandmother OR mother OR sister" were scraped from the top 50 news publications according to [similarweb](https://www.similarweb.com/) in USA, India, UK and South Africa according using [rapidAPI google news API](https://rapidapi.com/newscatcher-api-newscatcher-api-default/api/google-news). 
 

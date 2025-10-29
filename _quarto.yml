@@ -16,6 +16,8 @@ website:
             text: "Long Beach Animal Shelter"
       - text: "Text Analysis"
         href: text_analysis.qmd
+      - text: "A Simulation Study"
+        href: simulation_study.qmd
 
 format:
   html:

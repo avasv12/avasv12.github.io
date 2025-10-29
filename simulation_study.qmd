@@ -1,0 +1,61 @@
+---
+title: "A Simulation Study"
+editor: source
+description: |
+  A simulation study on maternal investment in frogs
+author: Ava Santos-Volpe
+date: October 26, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+
+# Maternal investment in frogs
+
+For this project, I will be looking at the frog dataset from [OpenIntro](https://www.openintro.org/data/index.php?data=frog). This data set is from a study which was trying to understand whether maternal investment changes at varying altitudes on the Tibetan Plateau. The study sought to determine whether reproducing females allocated their energy to egg productions of size or number, which can both influence fitness. 
+
+From February to April 2013, the study team studied various populations of frog who live between 2035 to 3494 m above sea level in the eastern Tibetan Plateau. They located breeding ponds at various altitudes, and at each one, obtained a small sample of freshly laid egg clutches. They counted the number of eggs and weighed the clutch to determine egg weight, and approximated egg size from photographs. The groups I will be looking at will be those above 2,764.5m and those below. I will compare clutch volume. Original data from [Chen et al. (2013)](https://pubmed.ncbi.nlm.nih.gov/24200096/).
+
+```{r}
+library(openintro)
+library(tidyverse)
+
+frog <- read.csv("/Users/avasantos-volpe/Downloads/frog.csv")
+```
+
+
+
+
+
+```{r}
+# create altitude groups
+frog2 <- frog |>
+  mutate(group = ifelse(altitude>=2764.5, "High", "Low"))
+  
+# summarize variables
+frog_summary <- frog2 |>
+  group_by(group) |>
+  summarize(avg_clutch = mean(clutch.size),
+            med_clutch = median(clutch.size))
+
+# visualize relationship of interest
+ggplot(frog2, aes(x = group, y = clutch.size)) +
+  geom_boxplot()
+
+# calculate observed statistic
+frog_summary |>
+  summarize(avg_diff = diff(avg_clutch),
+            med_diff = diff(med_clutch))
+```
+This plot is a visualization of the original data. It shows some differences between the "high" and "low" altitude groups, with a couple of outliers. The median for the "high" group is 691.83 m^3, while the median for the "low" group is 741.31 m^3. The average for the "high" group is 719.69 m^3, while the average for the "low" group is 733.42 m^3.
+
+```{r}
+
+```
+
+
+
