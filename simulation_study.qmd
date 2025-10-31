@@ -53,9 +53,51 @@ frog_summary |>
 ```
 This plot is a visualization of the original data. It shows some differences between the "high" and "low" altitude groups, with a couple of outliers. The median for the "high" group is 691.83 m^3, while the median for the "low" group is 741.31 m^3. The average for the "high" group is 719.69 m^3, while the average for the "low" group is 733.42 m^3.
 
+The following simulation function takes the original data and permutes the clutch sizes among groups. Next, it calculates the difference in means/medians for the original and permuted data. Then, it compares them. Lastly, I mapped my data so that the function would be repeated many times to build a distribution of what differences we would expect by chance. 
+
 ```{r}
+# generate null sampling distribution
+perm_data <- function(rep, data) {
+  data |>
+    select(group, clutch.size) |>
+    mutate(clutch_perm = sample(clutch.size, replace = FALSE)) |>
+    group_by(group) |>
+    summarize(obs_avg = mean(clutch.size),
+              obs_med = median(clutch.size),
+              perm_avg = mean(clutch_perm),
+              perm_med = median(clutch_perm)) |>
+    summarize(obs_avg_diff = diff(obs_avg),
+              obs_med_diff = diff(obs_med),
+              perm_avg_diff = diff(perm_avg),
+              perm_med_diff = diff(perm_med),
+              rep = rep)
+}
 
+map(c(1:10), perm_data, data = frog2) |>
+  list_rbind()
+
+# visualize the null sampling distribution (median)
+set.seed(47)
+perm_stats <- 
+  map(c(1:500), perm_data, data = frog2) |>
+  list_rbind()
+
+perm_stats |>
+  ggplot(aes(x = perm_avg_diff)) +
+  geom_histogram() +
+  geom_vline(aes(xintercept = obs_avg_diff), color = "red") +
+  labs(
+    title = "Difference in average clutch size across altitudes (null distribution)",
+    x = "Difference in average clutch size across altitudes (m^3)", 
+    y = "Frequency"
+  )
 ```
+This plot is the visualization of the null sampling distribution (median). The distribution of differences we would expect if altitude did not affect clutch size.  
 
-
-
+```{r}
+# calculate p-value
+perm_stats |>
+  summarize(p_value_avg = mean(perm_avg_diff > obs_avg_diff),
+            p_value_med = mean(perm_med_diff > obs_med_diff))
+```
+From these tests, the observed differences seem to be in line with the distribution of differences in the null sampling distribution. There is no evidence to reject the null hypothesis: the average/median clutch size of frogs does not differ across elevations. So, altitude does not seem to have an effect on clutch size. 
