@@ -1,0 +1,76 @@
+---
+title: "Australian Frogs"
+description: |
+  Analysis of Australian Frogs data from Tidy Tuesday
+author: Ava Santos-Volpe
+date: September 24, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+   warning: false
+   message: false
+---
+
+# Data
+
+This data set is the sixth release of [FrogID](https://www.frogid.net.au/explore) data. I will specifically be looking at frog call identification data from 2023. The FrogID app allows citizen scientists to submit frog calls for experts to identify.
+
+[Tidy Tuesday Link](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-09-02/readme.md)
+
+# Background
+
+Australia is home to a unique and diverse array of frog species found almost nowhere else on Earth, with 257 native species distributed throughout the continent. But Australia’s frogs are in peril – almost one in five species are threatened with extinction due to threats such as climate change, urbanisation, disease, and the spread of invasive species.
+
+# Citations
+
+Primary citation for FrogID data: Rowley JJL, & Callaghan CT (2020) The FrogID dataset: expert-validated occurrence records of Australia’s frogs collected by citizen scientists. ZooKeys 912: 139-151
+
+Official frog name data: Australian Society of Herpetologists Official List of Australian Species. 2025. http://www.australiansocietyofherpetologists.org/ash-official-list-of-australian-species.
+
+Thank you to Jessica Moore for curating this week's dataset.
+
+```{r}
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(maps)
+
+# download and clean frogID data
+
+frogID <- here("frog_data.csv")
+
+download.file( "https://d2pifd398unoeq.cloudfront.net/FrogID6_final_dataset.csv", destfile = frogID, mode = "wb" )
+
+frogID_data <- read_csv("frog_data.csv") %>% # remove columns containing only one unique value and other unnecessary columns 
+  select(-c(datasetName, basisOfRecord, dataGeneralizations, sex, lifestage, behavior, samplingProtocol, country, machineObservation, geoprivacy, modified)) %>% 
+  # restrict to 2023 data only to reduce file size 
+  filter(format(eventDate, "%Y") == "2023") %>% 
+  # split time column into time and timezone 
+  separate_wider_regex( eventTime, patterns = c(eventTime = "^\\d{2}:\\d{2}:\\d{2}", timezone = ".*$") ) %>% mutate( timezone = ifelse(grepl("[^1]", timezone), paste0("GMT", timezone), timezone) )
+
+# read and tidy frog name and common name data
+
+download.file( "https://raw.githubusercontent.com/jessjep/Frogs/main/frog_names.xlsx", destfile = "frog_names.xlsx", mode = "wb" )
+
+frog_names <- readxl::read_xlsx("frog_names.xlsx") %>% select(1:4) %>% separate_wider_delim( `GROUP, FAMILY, SUBFAMILY, TRIBE`, delim = ",", names = c("family", "subfamily", "tribe") ) %>% rename( scientificName = `GENUS SPECIES SUBSPECIES`, commonName = `COMMON NAME`, secondary_commonNames = `SECONDARY COMMON NAMES` ) %>% select(-1)
+
+frog_names[frog_names == "—"] <- NA
+
+# join tables
+
+frog <- full_join( frog_names, frogID_data, by = c("scientificName" = "scientificName") )
+
+# remove NAs
+
+frog <- frog |> filter(!is.na(tribe))
+
+# download map
+
+aus <- map("world", region = "Australia")
+
+# create plot
+
+ggplot() + geom_polygon(data = aus, aes(x = long, y = lat, group = group)) + geom_jitter(data = frog, aes(x = decimalLongitude, y = decimalLatitude, color = tribe)) + facet_wrap(~tribe) + theme_minimal() + labs( x = "", y = "", title = "Australian Frog Distributions by Tribe" )
+```
