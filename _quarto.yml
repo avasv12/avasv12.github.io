@@ -7,7 +7,7 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: "Home"
       - text: "Data Visualization"
         menu:
           - href: australian_frogs.qmd
