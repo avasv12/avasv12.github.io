@@ -1,7 +1,0 @@
----
-title: "Data Visualization"
----
-
-Tidy Tuesday Analyses:
-[Australian Frogs](australian_frogs.qmd), 
-[Long Beach Animal Shelter](animalshelter.qmd)
