@@ -1,0 +1,74 @@
+---
+title: "Text Analysis"
+editor: source
+description: |
+  Text Analysis of Women in Headlines
+author: Ava Santos-Volpe
+date: October 8, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+# Text Analysis of Women in Headlines from 2010 to 2020
+
+This data set consists of headlines tagged with the keywords "women OR woman OR girl OR female OR lady OR ladies OR she OR her OR herself OR aunt OR grandmother OR mother OR sister" were scraped from the top 50 news publications according to [similarweb](https://www.similarweb.com/) in USA, India, UK and South Africa according using [rapidAPI google news API](https://rapidapi.com/newscatcher-api-newscatcher-api-default/api/google-news). 
+
+[The Pudding Link](https://github.com/the-pudding/data/tree/master/women-in-headlines)
+
+```{r}
+library(tidyverse)
+
+headlines <- readr::read_csv("https://raw.githubusercontent.com/the-pudding/data/refs/heads/master/women-in-headlines/headlines.csv")
+
+themes_by_year <- headlines |>
+  mutate(headline_no_site = str_to_lower(headline_no_site)) |>
+  mutate(theme = str_extract(headline_no_site, "(?<=\\b(her|a|the|in)\\s)(husband|boyfriend|power|lead)")) |>
+  mutate(year = str_sub(time, 1, 4)) |>
+  group_by(theme, year) |>
+  filter(!is.na(theme)) |>
+  summarize(n_headlines = n()) |>
+  group_by(year) |>
+  mutate(prop = n_headlines / sum(n_headlines))
+
+ggplot(themes_by_year, aes(x = theme, y = prop, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    x = "Thematic words",
+    y = "Proportion",
+    fill = "Year",
+    title = "Women in Headlines: Changes in Themes over Years"
+  )
+```
+This graph is showing how headlines about women have changed over time. This shows a  decrease in the use of words like "husband" and "boyfriend" in headlines. For my lookaround, I prefaced the thematic words with "her/a/the/in". It also shows an  increase in the use of words like "lead" and "power" over time. This pattern isn't perfect and certain years don't follow this, but for the most part it seems like headlines about men have decreased and headlines about leading and power have increased. 
+
+
+
+```{r}
+by_country <- headlines |>
+  group_by(country) |>
+  summarize(boyfriend = sum(str_detect(headline_no_site, "boyfriend")),
+            husband = sum(str_detect(headline_no_site, "husband")),
+            lead = sum(str_detect(headline_no_site, "lead")),
+            power = sum(str_detect(headline_no_site, "power"))
+            ) |>
+    pivot_longer(
+    cols = c(boyfriend, husband, lead, power),
+    names_to = "theme",
+    values_to = "counts"
+  ) 
+
+ggplot(by_country, aes(x = country, y = counts, fill = theme)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    x = "Country", 
+    y = "Counts",
+    fill = "Thematic words",
+    title = "Women in Headlines: Counts of Words by Country"
+  )
+
+```
+This graph shows the counts of each thematic word by country. The highest category in the US is "lead" and the lowest is "boyfriend". The highest category in the UK is "husband" and the lowest is "power". The highest category in South Africa is "lead" and the lowest is "boyfriend". The highest category in India "husband" and the lowest is "boyfriend".
