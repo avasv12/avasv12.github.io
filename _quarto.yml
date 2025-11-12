@@ -22,7 +22,7 @@ website:
         text: "Data Ethics"
 
 format:
-  html:
+  html: 
     theme: brite
     css: styles.css
     toc: true
