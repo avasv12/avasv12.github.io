@@ -14,12 +14,12 @@ website:
             text: "Australian Frogs"
           - href: animal_shelter.qmd
             text: "Long Beach Animal Shelter"
-      - text: "Text Analysis"
-        href: text_analysis.qmd
-      - text: "A Simulation Study"
-        href: simulation_study.qmd
-      - text: "Data Ethics"
-        href: data_ethics.qmd
+      - href: text_analysis.qmd
+        text: "Text Analysis"
+      - href: simulation_study.qmd
+        text: "A Simulation Study"
+      - href: data_ethics.qmd
+        text: "Data Ethics"
 
 format:
   html:
