@@ -12,7 +12,7 @@ website:
         menu:
           - href: australian_frogs.qmd
             text: "Australian Frogs"
-          - href: animal_shelter.qmd
+          - href: animalshelter.qmd
             text: "Long Beach Animal Shelter"
       - href: text_analysis.qmd
         text: "Text Analysis"

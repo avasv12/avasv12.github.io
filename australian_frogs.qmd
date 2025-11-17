@@ -37,11 +37,23 @@ library(here)
 library(ggplot2)
 library(maps)
 
+```
+
+
+```{r}
+frogID_data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-09-02/frogID_data.csv')
+frog_names <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-09-02/frog_names.csv')
+```
+
+
+```{r}
+#| eval: false
+
 # download and clean frogID data
 
-frogID <- here("frog_data.csv")
+#frogID <- here("frog_data.csv")
 
-download.file( "https://d2pifd398unoeq.cloudfront.net/FrogID6_final_dataset.csv", destfile = frogID, mode = "wb" )
+#download.file("https://d2pifd398unoeq.cloudfront.net/FrogID6_final_dataset.csv", destfile = frogID, mode = "wb" )
 
 frogID_data <- read_csv("frog_data.csv") %>% # remove columns containing only one unique value and other unnecessary columns 
   select(-c(datasetName, basisOfRecord, dataGeneralizations, sex, lifestage, behavior, samplingProtocol, country, machineObservation, geoprivacy, modified)) %>% 
@@ -52,12 +64,15 @@ frogID_data <- read_csv("frog_data.csv") %>% # remove columns containing only on
 
 # read and tidy frog name and common name data
 
-download.file( "https://raw.githubusercontent.com/jessjep/Frogs/main/frog_names.xlsx", destfile = "frog_names.xlsx", mode = "wb" )
+download.file("https://raw.githubusercontent.com/jessjep/Frogs/main/frog_names.xlsx", destfile = "frog_names.xlsx", mode = "wb" )
 
 frog_names <- readxl::read_xlsx("frog_names.xlsx") %>% select(1:4) %>% separate_wider_delim( `GROUP, FAMILY, SUBFAMILY, TRIBE`, delim = ",", names = c("family", "subfamily", "tribe") ) %>% rename( scientificName = `GENUS SPECIES SUBSPECIES`, commonName = `COMMON NAME`, secondary_commonNames = `SECONDARY COMMON NAMES` ) %>% select(-1)
 
 frog_names[frog_names == "—"] <- NA
+```
 
+
+```{r}
 # join tables
 
 frog <- full_join( frog_names, frogID_data, by = c("scientificName" = "scientificName") )

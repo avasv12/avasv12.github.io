@@ -24,7 +24,7 @@ From February to April 2013, the study team studied various populations of frog 
 library(openintro)
 library(tidyverse)
 
-frog <- read.csv("/Users/avasantos-volpe/Downloads/frog.csv")
+frog <- read.csv("data/frog.csv")
 ```
 
 

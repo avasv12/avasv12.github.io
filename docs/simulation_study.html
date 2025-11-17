@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Australian Frogs</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./animal_shelter.qmd">
+    <a class="dropdown-item" href="./animalshelter.html">
  <span class="dropdown-text">Long Beach Animal Shelter</span></a>
   </li>  
     </ul>
@@ -156,6 +156,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link active" href="./simulation_study.html" aria-current="page"> 
 <span class="menu-text">A Simulation Study</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data_ethics.html"> 
+<span class="menu-text">Data Ethics</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -226,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>frog <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/avasantos-volpe/Downloads/frog.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>frog <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/frog.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -296,16 +300,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 10 × 5
    obs_avg_diff obs_med_diff perm_avg_diff perm_med_diff   rep
           &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt;
- 1         13.7         49.5         -6.19          32.6     1
- 2         13.7         49.5         49.1           84.4     2
- 3         13.7         49.5         -4.85          16.1     3
- 4         13.7         49.5        -46.7          -31.9     4
- 5         13.7         49.5         51.2           66.7     5
- 6         13.7         49.5         39.9           84.4     6
- 7         13.7         49.5        -23.2          -31.9     7
- 8         13.7         49.5        -25.4          -16.1     8
- 9         13.7         49.5         14.8           66.7     9
-10         13.7         49.5        -34.0          -16.1    10</code></pre>
+ 1         13.7         49.5        -19.3         -31.9      1
+ 2         13.7         49.5         -3.09         16.1      2
+ 3         13.7         49.5        -61.7         -77.0      3
+ 4         13.7         49.5        -56.2          16.1      4
+ 5         13.7         49.5          2.69          8.06     5
+ 6         13.7         49.5          4.65        -16.1      6
+ 7         13.7         49.5         33.4          66.7      7
+ 8         13.7         49.5          2.58        -16.1      8
+ 9         13.7         49.5          5.73         16.1      9
+10         13.7         49.5         30.3          49.5     10</code></pre>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
