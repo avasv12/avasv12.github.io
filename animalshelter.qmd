@@ -21,37 +21,15 @@ Thank you to Lydia Gibson for curating this week's dataset.
 
 [Tidy Tuesday Link](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-03-04/readme.md)
 
-```{r}
+Reference: City of Long Beach Animal Care Services (2025)
 
-# Clean data provided by {animalshelter} R package (https://emilhvitfeldt.github.io/animalshelter/). No cleaning was necessary.
-# install.packages("devtools")
-# devtools::install_github("EmilHvitfeldt/animalshelter")
+```{r}
+#| label: animal_types
+
 library(dplyr)
 library(tidyverse)
 
 longbeach <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-04/longbeach.csv')
-
-longbeach <- longbeach %>%
-  dplyr::mutate(
-    was_outcome_alive = as.logical(was_outcome_alive),
-    dplyr::across(
-      c(
-        "animal_type",
-        "primary_color",
-        "secondary_color",
-        "sex",
-        "intake_condition",
-        "intake_type",
-        "intake_subtype",
-        "reason_for_intake",
-        "jurisdiction",
-        "outcome_type",
-        "outcome_subtype"
-      ),
-      as.factor
-    )
-  ) %>%
-    dplyr::select(-dplyr::any_of("intake_is_dead"))
 
 ggplot(
   longbeach, aes(x = animal_type, fill = animal_type)
@@ -63,5 +41,34 @@ ggplot(
     title = "Types of Animals at Long Beach Animal Shelter", 
     fill = "Animal Type"
   )
+```
 
+```{r}
+#| label: animal_names
+
+library(dplyr)
+library(tidyverse)
+library(shiny)
+library(wordcloud2)
+
+name_counts <- longbeach |>
+  mutate(animal_name = str_remove(animal_name, "^\\*")) |>
+  filter(!is.na(animal_name)) |>
+  filter(animal_name != "*") |>
+  group_by(animal_name) |>
+  summarize(n = n()) |>
+  arrange(desc(n))
+
+ui <- fluidPage(
+  titlePanel("Animal Names"),
+  wordcloud2Output("wordcloud")
+)
+
+server <- function(input, output) {
+  output$wordcloud <- renderWordcloud2({
+    wordcloud2(name_counts)
+  })
+}
+
+shinyApp(ui, server)
 ```

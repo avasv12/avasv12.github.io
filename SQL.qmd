@@ -1,0 +1,121 @@
+---
+title: "SQL"
+editor: source
+description: |
+  Using SQL to investigate traffic stop data
+author: Ava Santos-Volpe
+date: December 1, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+execute:
+  warning: false
+  message: false
+---
+The following project uses data from the [Stanford Open Policing Project](https://openpolicing.stanford.edu/).
+
+Reference:
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
+
+I am planning on comparing the arrests for different violations based on race. I will compare this in three different cities: Little Rock (AR), Hartford (CT), and Chicago (IL). I chose these cities because I think the results will be pretty different and might be interesting to compare. 
+
+```{r}
+con_traffic <- DBI::dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "traffic",
+  host = Sys.getenv("TRAFFIC_HOST"),
+  user = Sys.getenv("TRAFFIC_USER"),
+  password = Sys.getenv("TRAFFIC_PWD")
+)
+```
+
+```{sql connection=con_traffic}
+SHOW TABLES;
+```
+
+```{sql connection=con_traffic}
+#| output.var: "il"
+SELECT subject_race, outcome, COUNT(*) as count
+FROM il_chicago_2023_01_26
+WHERE outcome = "arrest"
+GROUP BY subject_race
+ORDER BY count DESC;
+```
+
+```{sql connection=con_traffic}
+SELECT *
+FROM nc_charlotte_2020_04_01
+LIMIT 0, 10;
+```
+
+```{sql connection=con_traffic}
+#| output.var: "nc"
+SELECT subject_race, outcome, COUNT(*) as count
+FROM nc_charlotte_2020_04_01
+WHERE outcome = "arrest"
+GROUP BY subject_race
+ORDER BY count DESC;
+```
+
+```{sql connection=con_traffic}
+SELECT *
+FROM ct_hartford_2020_04_01
+LIMIT 0, 10;
+```
+
+```{sql connection=con_traffic}
+#| output.var: "ct"
+SELECT subject_race, outcome, COUNT(*) as count
+FROM ct_hartford_2020_04_01
+WHERE outcome = "arrest"
+GROUP BY subject_race
+ORDER BY count DESC;
+```
+
+I ended up comparing the arrests based on race without looking at violations. The naming conventions were different for the violations, so that made it difficult to compare. I also chose to look at Charlotte instead of Little Rock to compare with Chicago and Hartford.
+
+```{r}
+#| label: il
+
+library(tidyverse)
+
+ggplot(il, aes(x = subject_race, y = count, fill = subject_race)) +
+  geom_bar(stat = "identity") + 
+  labs(
+    x = "Race",
+    y = "Count",
+    fill = "Race",
+    title = "Arrests by race in Chicago, IL"
+  )
+```
+This graph shows arrests by race in Chicago. Black and hispanic people had the highest number of arrests, followed by white people in the middle and asian/Pacific Islanders last. I would be interested to compare all of these numbers with the populations sizes by race in the city. 
+
+```{r}
+#| label: ct
+
+ggplot(ct, aes(x = subject_race, y = count, fill = subject_race)) +
+  geom_bar(stat = "identity") + 
+  labs(
+    x = "Race",
+    y = "Count",
+    fill = "Race",
+    title = "Arrests by race in Hartford, CT"
+  )
+```
+This graph shows arrests by race in Hartford. It follows a similar pattern to Chicago, with Black and hispanic people having the highest number of arrests, followed by white people in the middle, and asian/Pacific Islanders with the least.
+
+```{r}
+#| label: nc
+
+ggplot(nc, aes(x = subject_race, y = count, fill = subject_race)) +
+  geom_bar(stat = "identity") + 
+  labs(
+    x = "Race",
+    y = "Count",
+    fill = "Race",
+    title = "Arrests by race in Charlotte, NC"
+  )
+```
+This is a plot of arrests made in Charlotte by race. In this plot, the number of Black people arrested seems much higher than any other race. The next highest race is white people, then hispanic people, then asian/Pacific Islanders. 
+

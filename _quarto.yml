@@ -20,6 +20,10 @@ website:
         text: "A Simulation Study"
       - href: data_ethics.qmd
         text: "Data Ethics"
+      - href: SQL.qmd
+        text: "SQL"
+      - href: presentation.qmd
+        text: "Presentation"
 
 format:
   html: 

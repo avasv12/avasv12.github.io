@@ -19,14 +19,19 @@ This data set consists of headlines tagged with the keywords "women OR woman OR 
 
 [The Pudding Link](https://github.com/the-pudding/data/tree/master/women-in-headlines)
 
+Reference:
+When women make headlines. (n.d.). The Pudding. https://pudding.cool/2022/02/women-in-headlines/
+
 ```{r}
+#| label: headlines_time
+
 library(tidyverse)
 
 headlines <- readr::read_csv("https://raw.githubusercontent.com/the-pudding/data/refs/heads/master/women-in-headlines/headlines.csv")
 
 themes_by_year <- headlines |>
   mutate(headline_no_site = str_to_lower(headline_no_site)) |>
-  mutate(theme = str_extract(headline_no_site, "(?<=\\b(her|a|the|in)\\s)(husband|boyfriend|power|lead)")) |>
+  mutate(theme = str_extract(headline_no_site, "(husband|boyfriend|power|lead)")) |>
   mutate(year = str_sub(time, 1, 4)) |>
   group_by(theme, year) |>
   filter(!is.na(theme)) |>
@@ -43,17 +48,19 @@ ggplot(themes_by_year, aes(x = theme, y = prop, fill = year)) +
     title = "Women in Headlines: Changes in Themes over Years"
   )
 ```
-This graph is showing how headlines about women have changed over time. This shows a  decrease in the use of words like "husband" and "boyfriend" in headlines. For my lookaround, I prefaced the thematic words with "her/a/the/in". It also shows an  increase in the use of words like "lead" and "power" over time. This pattern isn't perfect and certain years don't follow this, but for the most part it seems like headlines about men have decreased and headlines about leading and power have increased. 
+This graph is showing how headlines about women have changed over time. This shows a  decrease in the use of words like "husband" and "boyfriend" in headlines. It also shows an  increase in the use of words like "lead" and "power" over time. This pattern isn't perfect and certain years don't follow this, but for the most part it seems like headlines about men have decreased and headlines about leading and power have increased. 
 
 
 
 ```{r}
+#| label: headlines_country
+
 by_country <- headlines |>
   group_by(country) |>
-  summarize(boyfriend = sum(str_detect(headline_no_site, "boyfriend")),
-            husband = sum(str_detect(headline_no_site, "husband")),
-            lead = sum(str_detect(headline_no_site, "lead")),
-            power = sum(str_detect(headline_no_site, "power"))
+  summarize(boyfriend = sum(str_detect(headline_no_site, "boyfriend+")),
+            husband = sum(str_detect(headline_no_site, "husband+")),
+            lead = sum(str_detect(headline_no_site, "lead+")),
+            power = sum(str_detect(headline_no_site, "power+"))
             ) |>
     pivot_longer(
     cols = c(boyfriend, husband, lead, power),

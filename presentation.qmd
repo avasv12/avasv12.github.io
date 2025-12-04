@@ -1,0 +1,88 @@
+---
+title: "DS002 Final Presentation"
+author: "Ava Santos-Volpe"
+subtitle: "December 5, 2025"
+format:
+  revealjs:
+    theme: moon
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Project 1: Data Viz (Australian Frogs)
+
+Visualization 1: Australian frogs map using the maps package
+{{< embed australian_frogs.qmd#frog_map >}}
+
+## Project 1: Data Viz (Long Beach Animal Shelter)
+
+Visualization 2: Animal types
+{{< embed animalshelter.qmd#animal_types >}}
+
+
+Visualization 3: Animal Names Word Cloud using Shiny
+```{r}
+#| echo: false
+
+library(dplyr)
+library(tidyverse)
+library(shiny)
+library(wordcloud2)
+
+longbeach <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-04/longbeach.csv')
+
+name_counts <- longbeach |>
+  mutate(animal_name = str_remove(animal_name, "^\\*")) |>
+  filter(!is.na(animal_name)) |>
+  filter(animal_name != "*") |>
+  group_by(animal_name) |>
+  summarize(n = n()) |>
+  arrange(desc(n))
+
+wordcloud2(name_counts)
+
+```
+
+## Project 2: Text Analysis
+
+Changes in headlines about women over time
+{{< embed text_analysis.qmd#headlines_time >}}
+
+Changes in headlines about women by country
+{{< embed text_analysis.qmd#headlines_country >}}
+
+## Project 3: Simulation Study
+
+Visualization of data
+{{< embed simulation_study.qmd#frog_viz >}}
+
+Null distribution
+{{< embed simulation_study.qmd#frog_null >}}
+
+P-value
+{{< embed simulation_study.qmd#p_val >}}
+
+## Project 4: Data Ethics: The Havasupai Tribe vs. the Arizona Board of Regents
+
+![Sources: academic article and NPR interview](havasupai.jpg)
+
+## Project 5: SQL
+
+{{< embed SQL.qmd#il >}}
+{{< embed SQL.qmd#ct >}}
+{{< embed SQL.qmd#nc >}}
+
+## Project 6: Changes & Presentation
+
+- Citations and links
+- Changed wording
+- Shiny
+- Labels (for embedding)
+- Fixed code
+
