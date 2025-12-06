@@ -50,7 +50,9 @@ library(dplyr)
 library(tidyverse)
 library(shiny)
 library(wordcloud2)
+library(DT)
 
+# prep names
 name_counts <- longbeach |>
   mutate(animal_name = str_remove(animal_name, "^\\*")) |>
   filter(!is.na(animal_name)) |>
@@ -59,16 +61,37 @@ name_counts <- longbeach |>
   summarize(n = n()) |>
   arrange(desc(n))
 
+# UI
 ui <- fluidPage(
   titlePanel("Animal Names"),
-  wordcloud2Output("wordcloud")
+
+  tags$script(HTML(
+    "$(document).on('click', '#canvas', function() {
+      word = $('#wcLabel').text();
+      Shiny.onInputChange('clicked_word', word);
+    });"
+  )),
+  wordcloud2Output("wordcloud"),
+  DTOutput("filtered_tbl")
 )
 
 server <- function(input, output) {
   output$wordcloud <- renderWordcloud2({
     wordcloud2(name_counts)
   })
+  
+filtered_name <- reactive({
+    clicked_word <- input$clicked_word
+  
+    longbeach |>
+    mutate(animal_name = str_remove(animal_name, "^\\*"))
+  })
+    
+  output$filtered_tbl <- renderDT({
+    filtered_name()
+  })
 }
 
 shinyApp(ui, server)
 ```
+

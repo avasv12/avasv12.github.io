@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The following project uses data from the <a href="https://openpolicing.stanford.edu/">Stanford Open Policing Project</a>.</p>
 <p>Reference: Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al.&nbsp;2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.</p>
 <p>I am planning on comparing the arrests for different violations based on race. I will compare this in three different cities: Little Rock (AR), Hartford (CT), and Chicago (IL). I chose these cities because I think the results will be pretty different and might be interesting to compare.</p>
-<div id="4ef6899f-8570-4177-876f-5bbd09c02704" class="cell">
+<div id="2d2a6a93-5513-45d8-8854-88baecdeb012" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>con_traffic <span class="op">&lt;-</span> DBI::dbConnect(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB::MariaDB(),</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dbname <span class="op">=</span> <span class="st">"traffic"</span>,</span>
@@ -216,34 +216,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  password <span class="op">=</span> Sys.getenv(<span class="st">"TRAFFIC_PWD"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6851a64a-35d5-4500-9724-40370d6e7642" class="cell">
+<div id="da6ee40b-5595-4175-8c8f-a3e036308d47" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SHOW TABLES<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="181b2f37-3e12-42a8-8f02-34ab2cc287b6" class="cell" data-output.var="il">
+<div id="17290d2a-ccfa-4921-baf7-e118e8a3a89f" class="cell" data-output.var="il">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SELECT subject_race, outcome, COUNT(<span class="op">*</span>) <span class="im">as</span> count</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>FROM il_chicago_2023_01_26</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>WHERE outcome <span class="op">=</span> <span class="st">"arrest"</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>GROUP BY subject_race</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ORDER BY count DESC<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5c2d866e-871f-4628-93b4-d053fd4d6b32" class="cell">
+<div id="c1d563fd-7686-472c-ac05-bc5a3a282867" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SELECT <span class="op">*</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>FROM nc_charlotte_2020_04_01</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>LIMIT <span class="dv">0</span>, <span class="dv">10</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="dfdda95c-183b-4849-8084-f668d91fd60d" class="cell" data-output.var="nc">
+<div id="adcc6665-63f1-4fe8-a202-da64eea33df9" class="cell" data-output.var="nc">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SELECT subject_race, outcome, COUNT(<span class="op">*</span>) <span class="im">as</span> count</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>FROM nc_charlotte_2020_04_01</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>WHERE outcome <span class="op">=</span> <span class="st">"arrest"</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>GROUP BY subject_race</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ORDER BY count DESC<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="24b5452a-aa49-4878-9c30-24289761c718" class="cell">
+<div id="ece8dbc9-91b8-4740-9b5f-685e5e2581d0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SELECT <span class="op">*</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>FROM ct_hartford_2020_04_01</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>LIMIT <span class="dv">0</span>, <span class="dv">10</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5d9e3798-58af-433f-a9d0-73c575e97b97" class="cell" data-output.var="ct">
+<div id="91a91dcd-f9ed-4ebd-aa00-ed8a9ef399ae" class="cell" data-output.var="ct">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SELECT subject_race, outcome, COUNT(<span class="op">*</span>) <span class="im">as</span> count</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>FROM ct_hartford_2020_04_01</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>WHERE outcome <span class="op">=</span> <span class="st">"arrest"</span></span>
